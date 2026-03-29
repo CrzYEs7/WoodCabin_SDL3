@@ -4,17 +4,17 @@
 
 namespace Core
 {
+	enum AppKind
+	{
+		Nil,
+		Game,
+		Editor,
+	};
+
 	class App
 	{
 	public:
-		enum Kind
-		{
-			Nil,
-			Game,
-			Editor,
-		};
-	public:
-		Kind kind = Nil;
+		AppKind kind = AppKind::Nil;
 		virtual void Run() = 0;
 		virtual void Render() = 0;
 		virtual void Update(float delta) = 0;

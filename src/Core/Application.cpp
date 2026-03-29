@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "SDL3/SDL_log.h"
 
 namespace Core {
 	static Application* s_Application = nullptr;
@@ -35,7 +36,7 @@ namespace Core {
 				);
 	}
 
-	void Application::Run(App& app)
+	void Application::Run(App* app)
 	{
 		m_Running = true;
 
@@ -45,14 +46,18 @@ namespace Core {
 			double end_frame_time = ((double)SDL_GetTicks()) / 1000.0;
 			const double delta = end_frame_time - now;
 			
-			if(app.kind != App::Nil)
+			if(app->kind != AppKind::Nil)
 			{
-				app.Run();
+				app->Run();
+			}
+			else
+			{
+				SDL_Log("From Application AppKind is: %i", app->kind);
 			}
 			while(m_Running)
 			{
-				app.Update(delta);
-				app.Render();
+				app->Update(delta);
+				app->Render();
 
 				SDL_Event event;
 				while (SDL_PollEvent(&event)) 
@@ -64,7 +69,7 @@ namespace Core {
 							SDL_Quit();
 							break;
 					}
-					app.ProcessEvents(event);
+					app->ProcessEvents(event);
 				}
 
 

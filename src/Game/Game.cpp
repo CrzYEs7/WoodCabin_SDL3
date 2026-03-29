@@ -10,6 +10,7 @@ namespace Game
     GameApp::GameApp(SDL_Window* window, SDL_Renderer* renderer):
 	WindowHandle(window), RendererHandle(renderer)
     {
+	kind = Core::AppKind::Game;
     }
 
     void GameApp::Run()
@@ -23,11 +24,12 @@ namespace Game
 	    m_Player.name = "CrzYEst";
 	    m_Player.position = Vec2{50.0f, 50.0f};
 	    m_Player.speed = 10;
+	} 
+	else
+	{
+	    std::cout << "Player does not exists\n";
 	}
-
 	std::cout << "Game Runs\n";
-	SDL_Quit();
-	return;
     }
 
     void GameApp::Update(float delta)
@@ -36,7 +38,7 @@ namespace Game
 	{
 	    if (! m_Things.isUsed(i))
 		continue;
-	    std::cout << "Thing Name: " << m_Things.Get(i).name << std::endl;
+	    // std::cout << "Thing Name: " << m_Things.Get(i).name << std::endl;
 	}
     }
 

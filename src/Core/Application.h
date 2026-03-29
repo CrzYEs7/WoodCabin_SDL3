@@ -30,8 +30,7 @@ namespace Core {
 			return m_Renderer;
 		}
 
-
-		void Run(App& app);
+		void Run(App* app);
 	private:
 		bool m_Running = false;
 		ApplicationSpecifications m_Specs = {};

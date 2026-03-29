@@ -60,7 +60,6 @@ namespace Game {
     {
     public:
         GameApp(SDL_Window* window, SDL_Renderer* renderer);
-	Kind kind = Core::App::Kind::Game;
 	void Run();
     private:
 	Game::Things m_Things;
