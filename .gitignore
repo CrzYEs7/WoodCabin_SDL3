@@ -1,5 +1,5 @@
 .cache
-bin
+/bin/
 compile_commands
 obj
 compile_commands.json
