@@ -9,6 +9,7 @@ namespace Core {
 		std::string Name = "";
 		int Width = 800;	
 		int Height = 600;
+		int FPS = 120;
 	};
 
 	struct ApplicationSpecifications {
