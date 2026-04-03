@@ -50,8 +50,8 @@ namespace Game {
 	}
 
     private:
-        Thing m_Things[MAX_THINGS];
-        bool m_Used[MAX_THINGS];
+        Thing m_Things[MAX_THINGS] = {};
+        bool m_Used[MAX_THINGS] = {};
     
 	int m_NextEmptySlot = 1;
     };
@@ -63,7 +63,7 @@ namespace Game {
 	void Run();
     private:
 	Game::Things m_Things;
-	Game::Thing m_Player;
+	Game::Thing* m_Player;
 
 	SDL_Window* WindowHandle = NULL;
 	SDL_Renderer* RendererHandle = NULL;
