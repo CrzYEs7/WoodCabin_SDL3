@@ -1,4 +1,3 @@
-#include "App.h"
 #include "Game.h"
 #include "Application.h"
 
