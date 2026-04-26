@@ -8,6 +8,8 @@ kind("ConsoleApp")
 language("C++")
 targetdir("bin/%{cfg.buildcfg}")
 
+warnings(Extra)
+
 files({
 	"**.h",
 	"**.cpp",
