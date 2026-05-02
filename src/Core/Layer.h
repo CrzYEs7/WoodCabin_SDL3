@@ -22,7 +22,7 @@ namespace Core
 		LayerKind kind = LayerKind::Nil;
 
 		Game::Things m_Things;
-		int m_PlayerIndex;
+		Game::ThingRef m_PlayerRef;
 		SDL_Window* m_Window;
 		SDL_Renderer* m_Renderer;
 

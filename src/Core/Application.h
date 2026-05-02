@@ -13,7 +13,6 @@ namespace Core {
 		int Width = 800;	
 		int Height = 600;
 		int FPS = 120;
-
 	};
 
 	struct ApplicationSpecifications {
@@ -24,7 +23,6 @@ namespace Core {
 	class Application
 	{
 	public:
-
 		Application(ApplicationSpecifications AppSpecs);
 		~Application() = default;		
 
@@ -44,7 +42,7 @@ namespace Core {
 		void AddLayer(LayerKind kind); 
 		
 		void Run();
-		// void Run(App* app);
+
 	private:
 		bool m_Running = false;
 		ApplicationSpecifications m_Specs = {};

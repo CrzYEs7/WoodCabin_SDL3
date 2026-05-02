@@ -5,6 +5,7 @@
 
 #include "Application.h"
 #include "Layer.h"
+#include "Things.h"
 
 namespace Core {
 	static Application* s_Application = nullptr;
@@ -119,8 +120,8 @@ namespace Core {
 		{
 			case Core::LayerKind::Game:
 				Layer& layer = m_Layers.Get(i);
-				layer.m_PlayerIndex = layer.m_Things.Add(Game::Kind::Player);
-				Game::Thing& player = layer.m_Things.Get(layer.m_PlayerIndex);
+				layer.m_PlayerRef = layer.m_Things.Add(Game::Kind::Player);
+				Game::Thing& player = layer.m_Things.Get(layer.m_PlayerRef);
 				player.position = Game::Vec2{50,50};
 				player.speed = 1;
 
@@ -132,15 +133,21 @@ namespace Core {
 		switch (layer.kind)
 		{
 			case Core::LayerKind::Game:
+				//TODO: Iterator or Lambdas ??? at the moment we bypass the deref check
 				for (int i = 0; i < Game::MAX_THINGS; i++)
 				{
-					if (! layer.m_Things.isUsed(i))
+					if (! layer.m_Things.Get({i, layer.m_Things.m_Generation[i]}))
 						continue;
 					// std::cout << "Thing Name: " << m_Things.Get(i).name << std::endl;
 
-					Game::Thing& thing = layer.m_Things.Get(i);
+					Game::Thing& thing = layer.m_Things.Get({i, layer.m_Things.m_Generation[i]});
 					thing.position.x += thing.speed * dt;
 					thing.position.y += thing.speed * dt;
+
+					if (thing.position.x >= 700 || thing.position.y >=700)
+					{
+						layer.m_Things.Remove({i, layer.m_Things.m_Generation[i]});
+					}
 				}
 		}
 
@@ -154,8 +161,8 @@ namespace Core {
 				switch (event.type)
 				{
 					case SDL_EVENT_MOUSE_BUTTON_DOWN:
-						int thingIdx = layer.m_Things.Add(Game::Kind::Monster);
-						Game::Thing& thing = layer.m_Things.Get(thingIdx);
+						Game::ThingRef thingRef = layer.m_Things.Add(Game::Kind::Monster);
+						Game::Thing& thing = layer.m_Things.Get(thingRef);
 						thing.position.x = event.motion.x;
 						thing.position.y = event.motion.y;
 						thing.speed = SDL_randf();
@@ -180,10 +187,10 @@ namespace Core {
 				SDL_SetRenderDrawColorFloat(m_Renderer, 0, 0, 1, SDL_ALPHA_OPAQUE_FLOAT);  /* new color, full alpha. */
 				for(int i = 0; i < Game::MAX_THINGS; i++)
 				{
-					if (! layer.m_Things.isUsed(i))
+					if (! layer.m_Things.isUsed({i, layer.m_Things.m_Generation[i]}))
 						continue;
 
-					Game::Thing& thing = layer.m_Things.Get(i);
+					Game::Thing& thing = layer.m_Things.Get({i, layer.m_Things.m_Generation[i]});
 					SDL_FRect rect = {thing.position.x, thing.position.y, 10, 10};
 					// SDL_Log("Thing name: %s\n", thing.name.c_str());
 					SDL_RenderRect(m_Renderer, &rect);

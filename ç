@@ -1,5 +1,6 @@
 #pragma once 
 
+#include "Application.h"
 #include <cstdint>
 
 namespace Game
@@ -50,7 +51,6 @@ namespace Game
     class Things
     {
     public:	
-	Things();
 	ThingRef Add(Kind kind);
 	void Remove(ThingRef ref);
 
@@ -64,12 +64,13 @@ namespace Game
 	    return m_Things[Deref(ref)];
 	}
 
-	int m_Generation[MAX_THINGS] = {};
+	friend class Core::Application;
     private:
 	int Deref(ThingRef ref);
 
 	Thing m_Things[MAX_THINGS];
 	bool m_Used[MAX_THINGS];
+	int m_Generation[MAX_THINGS];
 	FreeSlotRef m_FreeList[MAX_THINGS];
 	int m_FirstFree = 1;
     };
